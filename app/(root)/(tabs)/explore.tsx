@@ -1,13 +1,13 @@
-import {View, Text} from "react-native";
+import {View, Text, ScrollView, Image, TouchableOpacity} from "react-native";
 import React from "react";
+import {SafeAreaView} from "react-native-safe-area-context";
+import Search from "@/components/Search";
 
 const Explore = () => {
     return (
-        <View>
-            <Text>
-                Explore
-            </Text>
-        </View>
+        <SafeAreaView className={"bg-white h-full"}>
+            <Search/>
+        </SafeAreaView>
     )
 }
 
