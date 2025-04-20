@@ -13,12 +13,12 @@ const SignIn = () => {
                 <Image source={require('../assets/images/nature_01.jpg')} className="w-full h-4/6" resizeMode="contain"/>
                 <View className="px-10">
                     <Text className="text-base text-center">
-                        Welcome to Uganda
+                        Welcome
                     </Text>
                     <Text className="text-3xl font-bold text-black-300 text-center mt-2">
                         Let's begin the journey! {"\n"}
                         <Text className="text-blue-700">
-                            amogus
+                            Please sign in
                         </Text>
                     </Text>
                     <TouchableOpacity onPress={handleLogin} className="bg-white shadow-md shadow-zinc-300 rounded-full w-full py-4 mt-5">

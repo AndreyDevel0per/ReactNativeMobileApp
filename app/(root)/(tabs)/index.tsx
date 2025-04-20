@@ -1,5 +1,6 @@
 import { Text, View } from "react-native";
 import {Link} from "expo-router";
+import 'react-native-gesture-handler';
 
 export default function Index() {
   return (
