@@ -9,13 +9,17 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.galaxies.firebase",
+      "googleServicesFile": "./GoogleService-Info.plist"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/react-logo@2x.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.android",
+      "googleServicesFile": "./google-services.json"
     },
     "web": {
       "bundler": "metro",
@@ -40,7 +44,27 @@
             "./assets/fonts/SpaceMono-Regular.ttf"
           ]
         }
-      ]
+      ],
+      [
+        "expo-build-properties",
+        {
+          "ios": {
+            "useFrameworks": "static"
+          }
+        }
+      ],
+      [
+        "@react-native-firebase/app",
+        {
+          "ios": {
+            "googleServicesFile": "./GoogleService-Info.plist"
+          },
+          "android": {
+            "googleServicesFile": "./google-services.json"
+          }
+        }
+      ],
+      "@react-native-firebase/auth"
     ],
     "experiments": {
       "typedRoutes": true
