@@ -18,7 +18,7 @@
         "foregroundImage": "./assets/images/react-logo@2x.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.android",
+      "package": "com.galaxies.firebase",
       "googleServicesFile": "./google-services.json"
     },
     "web": {
@@ -52,19 +52,7 @@
             "useFrameworks": "static"
           }
         }
-      ],
-      [
-        "@react-native-firebase/app",
-        {
-          "ios": {
-            "googleServicesFile": "./GoogleService-Info.plist"
-          },
-          "android": {
-            "googleServicesFile": "./google-services.json"
-          }
-        }
-      ],
-      "@react-native-firebase/auth"
+      ]
     ],
     "experiments": {
       "typedRoutes": true

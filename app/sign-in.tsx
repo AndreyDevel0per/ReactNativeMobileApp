@@ -1,59 +1,87 @@
-import {View, Text, ScrollView, TouchableOpacity, ActivityIndicator, TextInput, Button, Alert, StyleSheet} from "react-native";
-import React, {useState} from "react";
-import {SafeAreaView} from "react-native-safe-area-context";
-import auth from '@react-native-firebase/auth';
-
+import { View, Text, ScrollView, TouchableOpacity, ActivityIndicator, TextInput, Button, Alert } from "react-native";
+import React, { useState } from "react";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebaseConfig"; // Импортируем auth из вашего firebaseConfig.js
 
 const SignIn = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
-    const handleLogin = () => {
 
-    }
+    // Функция проверки email
+    const isValidEmail = (email) => {
+        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return re.test(email);
+    };
 
     const signUp = async () => {
+        if (!isValidEmail(email)) {
+            Alert.alert('Ошибка', 'Пожалуйста, введите корректный email');
+            return;
+        }
+        if (password.length < 6) {
+            Alert.alert('Ошибка', 'Пароль должен содержать минимум 6 символов');
+            return;
+        }
+
         setLoading(true);
         try {
-            // Пример для Firebase Auth:
-            // await createUserWithEmailAndPassword(auth, email, password);
-            await auth().createUserWithEmailAndPassword(email, password);
-            Alert.alert('Успех!', 'Аккаунт создан.');
-        } catch (error: any) {
-            Alert.alert('Ошибка', error.message);
+            await createUserWithEmailAndPassword(auth, email, password);
+            Alert.alert('Успех!', 'Аккаунт успешно создан');
+        } catch (error) {
+            handleAuthError(error);
         } finally {
             setLoading(false);
         }
     };
 
     const signIn = async () => {
+        if (!isValidEmail(email)) {
+            Alert.alert('Ошибка', 'Пожалуйста, введите корректный email');
+            return;
+        }
+
         setLoading(true);
         try {
-            // Пример для Firebase Auth:
-            // await signInWithEmailAndPassword(auth, email, password);
-            await auth().signInWithEmailAndPassword(email, password);
-            Alert.alert('Успех!', 'Вход выполнен.');
-        } catch (error: any) {
-            Alert.alert('Ошибка', error.message);
+            await signInWithEmailAndPassword(auth, email, password);
+            Alert.alert('Успех!', 'Вход выполнен');
+        } catch (error) {
+            handleAuthError(error);
         } finally {
             setLoading(false);
         }
     };
 
+    // Обработчик ошибок Firebase
+    const handleAuthError = (error) => {
+        switch (error.code) {
+            case 'auth/invalid-email':
+                Alert.alert('Ошибка', 'Неверный формат email');
+                break;
+            case 'auth/user-not-found':
+                Alert.alert('Ошибка', 'Пользователь не найден');
+                break;
+            case 'auth/wrong-password':
+                Alert.alert('Ошибка', 'Неверный пароль');
+                break;
+            case 'auth/email-already-in-use':
+                Alert.alert('Ошибка', 'Этот email уже используется');
+                break;
+            default:
+                Alert.alert('Ошибка', error.message);
+        }
+    };
+
 
     return (
-        <SafeAreaView className={"bg-white h-full"}>
-            <ScrollView contentContainerClassName="h-full">
-                {/*<Image source={require('../assets/images/nature_01.jpg')} className="w-full h-4/6" resizeMode="contain"/>*/}
-                <View className="px-10">
-                    <Text className="text-base text-center">
-                        Welcome
-                    </Text>
-                    <Text className="text-3xl font-bold text-black-300 text-center mt-2">
-                        Let's begin the journey! {"\n"}
-                        <Text className="text-blue-700">
-                            Please sign in
-                        </Text>
+        <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
+            <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+                <View style={{ paddingHorizontal: 40 }}>
+                    <Text style={{ textAlign: 'center', fontSize: 16 }}>Welcome</Text>
+                    <Text style={{ fontSize: 24, fontWeight: 'bold', textAlign: 'center', marginTop: 8 }}>
+                        Let's begin the journey!{"\n"}
+                        <Text style={{ color: 'blue' }}>Please sign in</Text>
                     </Text>
                     <View style={{ padding: 20 }}>
                         <TextInput
@@ -80,13 +108,10 @@ const SignIn = () => {
                             </>
                         )}
                     </View>
-                    <TouchableOpacity onPress={handleLogin} className="bg-white shadow-md shadow-zinc-300 rounded-full w-full py-4 mt-5">
-                        <Text className="text-center text-2xl font-bold">Sign In</Text>
-                    </TouchableOpacity>
                 </View>
             </ScrollView>
         </SafeAreaView>
-    )
-}
+    );
+};
 
-export default SignIn
+export default SignIn;
